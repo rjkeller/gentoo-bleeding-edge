@@ -1,4 +1,5 @@
 sys-kernel/gentoo-sources ~amd64
+sys-kernel/linux-headers ~amd64
 dev-db/mariadb ~amd64
 dev-lang/php ~amd64
 www-servers/apache ~amd64
