@@ -164,7 +164,9 @@ echo "456123
 
 ln -s /usr/lib/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/
 
-echo '**** STEP 21 addUserAccounts  ****'
+
+emerge dev-db/phpmyadmin
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/vhosts/00-techdev.conf' -O /etc/apache2/vhosts.d/00-techdev.conf
 
 groupadd admin
 useradd -G admin rjkeller
