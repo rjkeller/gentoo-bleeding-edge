@@ -8,4 +8,8 @@ sys-apps/apparmor ~amd64
 sec-policy/apparmor-profiles ~amd64
 virtual/mysql ~amd64
 dev-db/mongodb ~amd64
+dev-vcs/git ~amd64
 dev-php/pecl-mongo ~amd64
+dev-libs/snowball-stemmer ~amd64
+dev-db/redis ~amd64 
+dev-db/phpmyadmin ~amd64
