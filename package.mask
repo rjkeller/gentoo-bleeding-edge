@@ -1,0 +1,7 @@
+>=sys-kernel/gentoo-sources-3.14
+>=dev-db/mariadb-5.6
+>=dev-lang/php-5.6
+>=www-servers/apache-2.5
+>=app-admin/apache-tools-2.5
+>=dev-libs/apr-1.6
+>=sys-apps/apparmor-2.9
