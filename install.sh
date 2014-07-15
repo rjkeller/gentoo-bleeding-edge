@@ -45,8 +45,7 @@ echo "nameserver 8.8.8.8" > /mnt/gentoo/etc/resolv.conf
 mount -t proc proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev
-chroot /mnt/gentoo /bin/bash -c "bash -x /install.sh"
-
+chroot /mnt/gentoo /bin/bash
 
 
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/make.conf' -O /etc/portage/make.conf
