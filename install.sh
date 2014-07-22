@@ -122,7 +122,7 @@ WantedBy=multi-user.target
 " > /usr/lib/systemd/system/network.enp0s3.service
 ln -s /usr/lib/systemd/system/network.enp0s3.service /etc/systemd/system/multi-user.target.wants/
 
-emerge net-misc/dhcpcd syslog-ng logrotate cronie app-arch/zip app-arch/unzip vim ntp sudo www-servers/apache sys-process/htop sys-process/iotop php dev-db/redis dev-php/pecl-redis apparmor sec-policy/apparmor-profiles dev-php/phpunit app-misc/screen dev-db/mongodb dev-php/pecl-mongo mariadb 
+emerge net-misc/dhcpcd syslog-ng logrotate cronie app-arch/zip app-arch/unzip vim ntp sudo www-servers/apache sys-process/htop sys-process/iotop php dev-db/redis dev-php/pecl-redis apparmor sec-policy/apparmor-profiles dev-php/phpunit app-misc/screen dev-db/mongodb dev-php/pecl-mongo mariadb dev-php/xdebug dev-vcs/git dev-vcs/subversion
 
 ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/syslog.service
 ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/multi-user.target.wants/
@@ -189,6 +189,21 @@ emerge dev-python/pip
 
 
 pip install awscli
+
+
+
+emerge dev-ruby/rubygems
+ln -s /usr/bin/gem19 /usr/bin/gem
+
+gem update system
+gem install sass
+gem install compass
+gem install zurb-foundation
+
+
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin
+mv /bin/composer.phar /usr/local/bin/composer
+
 
 
 emerge sys-boot/grub
