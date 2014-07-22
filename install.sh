@@ -129,6 +129,9 @@ ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/multi-user.t
 ln -s /usr/lib/systemd/system/cronie.service /etc/systemd/system/multi-user.target.wants/
 ln -s /usr/lib/systemd/system/ntpd.service /etc/systemd/system/multi-user.target.wants/
 
+# Vim auto indent is annoying
+sed -i 's/set ai/\"set ai/g' /etc/vim/vimrc
+
 chmod +w /etc/sudoers
 echo '%admin ALL=(ALL) ALL
 ' >> /etc/sudoers
