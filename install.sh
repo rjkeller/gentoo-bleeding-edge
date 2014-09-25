@@ -82,16 +82,13 @@ make modules_install
 cp arch/x86_64/boot/bzImage /boot/kernel-`find /usr/src -name linux-3* | awk -Flinux- '{print $NF }'`
 
 
-echo '
-sys-apps/dbus -systemd' >> /etc/portage/package.use
+emerge --unmerge sys-fs/udev
 emerge systemd
-sed -i 's/sys-apps\/dbus -systemd/ /g' /etc/portage/package.use
-emerge sys-apps/dbus
 
 
+emerge --changed-use --deep world
 emerge --update --deep --with-bdeps=y @world
 emerge @preserved-rebuild
-emerge --changed-use --deep world
 
 
 echo '/dev/vda4	/	xfs	noatime	0 1
