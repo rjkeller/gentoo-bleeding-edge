@@ -76,6 +76,7 @@ emerge gentoo-sources
 wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernel-virtio-3.15.config -O /usr/src/linux/.config
 touch /usr/src/linux/.config
 cd /usr/src/linux
+make oldconfig
 make
 make modules_install
 cp arch/x86_64/boot/bzImage /boot/kernel-`find /usr/src -name linux-3* | awk -Flinux- '{print $NF }'`
