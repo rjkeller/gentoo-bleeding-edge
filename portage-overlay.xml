@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+
+<repositories version="1.0">
+	<repo priority="50" quality="experimental" status="unofficial">
+		<name>rjkeller</name>
+		<description>R.J.'s portage overlay</description>
+		<homepage>http://github.com/rjkeller/portage-overlay</homepage>
+		<source type="git">git://github.com/rjkeller/portage-overlay.git</source>
+	</repo>
+</repositories>
