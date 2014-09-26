@@ -91,6 +91,14 @@ emerge --update --deep --with-bdeps=y @world
 emerge @preserved-rebuild
 
 
+
+emerge app-portage/layman
+echo "source /var/lib/layman/make.conf" >> /etc/portage/make.conf
+
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage-overlay.xml' -O /etc/layman/overlays/rjkeller.xml
+layman -a rjkeller
+
+
 echo '/dev/vda4	/	xfs	noatime	0 1
 /dev/vda2	/boot	xfs	noauto,noatime	1 2
 /dev/vda3	none	swap	sw	0 0
