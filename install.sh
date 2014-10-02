@@ -135,6 +135,9 @@ ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/multi-user.t
 ln -s /usr/lib/systemd/system/cronie.service /etc/systemd/system/multi-user.target.wants/
 ln -s /usr/lib/systemd/system/ntpd.service /etc/systemd/system/multi-user.target.wants/
 
+# set some git settings
+git config --global push.default simple
+
 # Vim auto indent is annoying
 sed -i 's/set ai/\"set ai/g' /etc/vim/vimrc
 
