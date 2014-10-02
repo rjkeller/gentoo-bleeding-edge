@@ -1,2 +1,2 @@
-dev-lang/php hash phar crypt pdo gd imap mysql json intl mhash
+dev-lang/php hash phar crypt pdo gd imap mysql json intl mhash zip
 dev-libs/openssl bindist
