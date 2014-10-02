@@ -128,7 +128,32 @@ WantedBy=multi-user.target
 " > /usr/lib/systemd/system/network.enp0s3.service
 ln -s /usr/lib/systemd/system/network.enp0s3.service /etc/systemd/system/multi-user.target.wants/
 
-emerge net-misc/dhcpcd syslog-ng logrotate cronie app-arch/zip app-arch/unzip vim ntp sudo www-servers/apache sys-process/htop sys-process/iotop php dev-db/redis dev-php/pecl-redis apparmor sec-policy/apparmor-profiles dev-php/phpunit app-misc/screen dev-db/mongodb dev-php/pecl-mongo mariadb dev-php/xdebug dev-vcs/git dev-vcs/subversion
+emerge net-misc/dhcpcd \
+  syslog-ng \
+  logrotate \
+  cronie \
+  app-arch/zip \
+  app-arch/unzip \
+  vim \
+  ntp \
+  sudo \
+  www-servers/apache \
+  sys-process/htop \
+  sys-process/iotop \
+  dev-lang/php \
+  dev-db/redis \
+  dev-php/pecl-redis \
+  apparmor \
+  sec-policy/apparmor-profiles \
+  dev-php/phpunit \
+  app-misc/screen \
+  dev-db/mongodb \
+  dev-php/pecl-mongo \
+  dev-db/mariadb \
+  dev-php/composer \
+  dev-php/xdebug \
+  dev-vcs/git \
+  dev-vcs/subversion
 
 ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/syslog.service
 ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/multi-user.target.wants/
@@ -211,10 +236,6 @@ gem update system
 gem install sass
 gem install compass
 gem install zurb-foundation
-
-
-curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin
-mv /bin/composer.phar /usr/local/bin/composer
 
 
 
