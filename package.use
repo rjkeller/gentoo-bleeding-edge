@@ -1,1 +1,1 @@
-dev-lang/php hash phar crypt pdo gd imap mysql json intl mhash zip
+dev-lang/php hash phar crypt pdo gd imap mysql json intl mhash zip curl ftp ipv6 libmysqlclient mysqli soap sockets sqlite tidy xmlreader xmlrpc xmlwriter xslt
