@@ -230,7 +230,7 @@ pip install awscli
 
 
 emerge dev-ruby/rubygems
-ln -s /usr/bin/gem19 /usr/bin/gem
+eselect ruby set ruby19
 
 gem update system
 gem install sass
