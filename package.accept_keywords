@@ -16,3 +16,4 @@ dev-db/redis ~amd64
 dev-db/phpmyadmin ~amd64
 virtual/httpd-php ~amd64
 dev-db/mysql ~amd64
+app-editors/vim ~amd64
