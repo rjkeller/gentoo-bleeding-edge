@@ -1,1 +1,1 @@
->=sys-kernel/gentoo-sources-3.17.0
+>=sys-kernel/gentoo-sources-3.18.0
