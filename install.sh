@@ -114,19 +114,19 @@ echo "127.0.0.1 localhost   techdev02.yliving.net
 " > /etc/hosts
 cd /etc/conf.d
 echo "[Unit]
-Description=DHCP on enp0s3
+Description=DHCP
 After=basic.target
 
 [Service] 
 Type=oneshot 
 RemainAfterExit=yes 
 ExecStart=/bin/ifconfig enp0s3 up
-ExecStart=/sbin/dhcpcd -B enp0s3
+ExecStart=/sbin/dhcpcd
 
 [Install] 
 WantedBy=multi-user.target
-" > /usr/lib/systemd/system/network.enp0s3.service
-ln -s /usr/lib/systemd/system/network.enp0s3.service /etc/systemd/system/multi-user.target.wants/
+" > /usr/lib/systemd/system/network.dhcpcd.service
+ln -s /usr/lib/systemd/system/network.dhcpcd.service /etc/systemd/system/multi-user.target.wants/
 
 emerge net-misc/dhcpcd \
   syslog-ng \
