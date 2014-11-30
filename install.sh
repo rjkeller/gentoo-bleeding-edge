@@ -19,22 +19,22 @@ echo "
                 print
                 quit
               " > /tmp/parted
-parted -a optimal /dev/vda < /tmp/parted
+parted -a optimal /dev/sda < /tmp/parted
 rm -f /tmp/parted
 
 
-mkfs.xfs /dev/vda4
+mkfs.xfs /dev/sda4
 mkdir -p /mnt/gentoo/
-mount /dev/vda4 /mnt/gentoo/
+mount /dev/sda4 /mnt/gentoo/
 
 
-mkfs.xfs /dev/vda2
+mkfs.xfs /dev/sda2
 mkdir -p /mnt/gentoo/boot
-mount /dev/vda2 /mnt/gentoo/boot
+mount /dev/sda2 /mnt/gentoo/boot
 
 
-mkswap /dev/vda3
-swapon /dev/vda3
+mkswap /dev/sda3
+swapon /dev/sda3
 
 
 cd /mnt/gentoo
@@ -73,7 +73,7 @@ env-update && source /etc/profile
 
 
 emerge gentoo-sources
-wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernel-virtio-3.15.config -O /usr/src/linux/.config
+wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernel-vmware-3.15.config -O /usr/src/linux/.config
 touch /usr/src/linux/.config
 cd /usr/src/linux
 make oldconfig
@@ -99,9 +99,9 @@ wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/por
 layman -a rjkeller
 
 
-echo '/dev/vda4	/	xfs	noatime	0 1
-/dev/vda2	/boot	xfs	noauto,noatime	1 2
-/dev/vda3	none	swap	sw	0 0
+echo '/dev/sda4	/	xfs	noatime	0 1
+/dev/sda2	/boot	xfs	noauto,noatime	1 2
+/dev/sda3	none	swap	sw	0 0
 ' > /etc/fstab
 rm -rf /etc/mtab
 ln -s /proc/self/mounts /etc/mtab
@@ -241,7 +241,7 @@ gem install zurb-foundation
 
 emerge sys-boot/grub
 
-grub2-install /dev/vda
+grub2-install /dev/sda
 echo '
 GRUB_CMDLINE_LINUX="init=/usr/lib/systemd/systemd"
 ' >> /etc/default/grub
