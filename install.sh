@@ -149,6 +149,7 @@ emerge net-misc/dhcpcd \
   app-misc/screen \
   dev-db/mongodb \
   dev-php/pecl-mongo \
+  dev-php/pecl-memcache \
   dev-db/mariadb \
   dev-php/composer \
   dev-php/xdebug \
