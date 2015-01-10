@@ -73,7 +73,7 @@ env-update && source /etc/profile
 
 
 emerge gentoo-sources
-wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernel-vmware-3.15.config -O /usr/src/linux/.config
+wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernel-vmware-3.18.config -O /usr/src/linux/.config
 touch /usr/src/linux/.config
 cd /usr/src/linux
 make oldconfig
@@ -107,9 +107,9 @@ rm -rf /etc/mtab
 ln -s /proc/self/mounts /etc/mtab
 
 
-echo 'techdev02.yliving.net' > /etc/hostname
-echo 'hostname="techdev02.yliving.net"' > /etc/conf.d/hostname
-echo "127.0.0.1 localhost   techdev02.yliving.net
+echo 'mdev' > /etc/hostname
+echo 'hostname="mdev"' > /etc/conf.d/hostname
+echo "127.0.0.1 localhost   mdev
 ::1     localhost
 " > /etc/hosts
 cd /etc/conf.d
@@ -143,23 +143,20 @@ emerge net-misc/dhcpcd \
   dev-lang/php \
   dev-db/redis \
   dev-php/pecl-redis \
-  apparmor \
-  sec-policy/apparmor-profiles \
   dev-php/phpunit \
   app-misc/screen \
-  dev-db/mongodb \
-  dev-php/pecl-mongo \
-  dev-php/pecl-memcache \
   dev-db/mariadb \
-  dev-php/composer \
   dev-php/xdebug \
   dev-vcs/git \
-  dev-vcs/subversion
+  app-admin/eclean-kernel
+
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 
 ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/syslog.service
 ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/multi-user.target.wants/
 ln -s /usr/lib/systemd/system/cronie.service /etc/systemd/system/multi-user.target.wants/
 ln -s /usr/lib/systemd/system/ntpd.service /etc/systemd/system/multi-user.target.wants/
+ln -s /usr/lib/systemd/system/redis.service /etc/systemd/system/multi-user.target.wants/
 
 # set some git settings
 git config --global push.default simple
@@ -175,7 +172,7 @@ ln -s /usr/lib/systemd/system/apache2.service /etc/systemd/system/multi-user.tar
 echo '
 
 #SERVER SETTINGS
-ServerName techdev02.yliving.net
+ServerName mdev
 KeepAlive On
 MaxKeepAliveRequests 100
 KeepAliveTimeout 15
@@ -192,18 +189,11 @@ Listen 443
 ' >> /etc/apache2/httpd.conf
 sed -i 's/-D DEFAULT_VHOST -D INFO/-D DEFAULT_VHOST -D INFO -D PHP5/g' /etc/conf.d/apache2
 
-ln -s /usr/lib/systemd/system/redis.service /etc/systemd/system/multi-user.target.wants/
-ln -s /usr/lib/systemd/system/mongodb.service /etc/systemd/system/multi-user.target.wants/
-ln -s /usr/lib/systemd/system/mysqld.service /etc/systemd/system/multi-user.target.wants/
-
-echo "456123
-456123" | emerge --config dev-db/mariadb
-
 ln -s /usr/lib/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/
 
 
 emerge dev-db/phpmyadmin
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/vhosts/00-techdev.conf' -O /etc/apache2/vhosts.d/00-techdev.conf
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/vhosts/00-mdev.conf' -O /etc/apache2/vhosts.d/00-mdev.conf
 
 groupadd admin
 useradd -G admin rjkeller

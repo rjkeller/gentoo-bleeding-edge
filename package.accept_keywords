@@ -14,3 +14,6 @@ dev-db/redis ~amd64
 dev-db/phpmyadmin ~amd64
 dev-db/mysql ~amd64
 app-editors/vim ~amd64
+
+dev-python/pymountboot ~amd64
+app-admin/eclean-kernel ~amd64
