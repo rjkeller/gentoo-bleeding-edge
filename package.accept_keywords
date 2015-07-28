@@ -17,3 +17,5 @@ app-editors/vim ~amd64
 
 dev-python/pymountboot ~amd64
 app-admin/eclean-kernel ~amd64
+virtual/libmysqlclient ~amd64
+dev-libs/libuv ~amd64
