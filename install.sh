@@ -47,11 +47,12 @@ mount --rbind /sys /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev
 chroot /mnt/gentoo /bin/bash
 
+mkdir -p /usr/portage/package.accept_keywords
 
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/make.conf' -O /etc/portage/make.conf
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.use' -O /etc/portage/package.use
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.accept_keywords' -O /etc/portage/package.accept_keywords
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.mask' -O /etc/portage/package.mask
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.use/default' -O /etc/portage/package.use
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.accept_keywords/default' -O /etc/portage/package.accept_keywords
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.mask/default' -O /etc/portage/package.mask
 emerge-webrsync
 emerge --sync
 
