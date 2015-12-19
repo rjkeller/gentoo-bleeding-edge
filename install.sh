@@ -93,13 +93,6 @@ emerge @preserved-rebuild
 
 
 
-emerge app-portage/layman
-echo "source /var/lib/layman/make.conf" >> /etc/portage/make.conf
-
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage-overlay.xml' -O /etc/layman/overlays/rjkeller.xml
-layman -a rjkeller
-
-
 echo '/dev/sda4	/	xfs	noatime	0 1
 /dev/sda2	/boot	xfs	noauto,noatime	1 2
 /dev/sda3	none	swap	sw	0 0
