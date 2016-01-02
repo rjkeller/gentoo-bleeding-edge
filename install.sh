@@ -80,7 +80,7 @@ cd /usr/src/linux
 make oldconfig
 make
 make modules_install
-cp arch/x86_64/boot/bzImage /boot/kernel-`find /usr/src -name linux-3* | awk -Flinux- '{print $NF }'`
+cp arch/x86_64/boot/bzImage /boot/kernel-`find /usr/src -name linux-4* | awk -Flinux- '{print $NF }'`
 
 
 emerge --unmerge sys-fs/udev
