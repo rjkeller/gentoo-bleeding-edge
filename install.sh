@@ -203,6 +203,8 @@ echo '456123
 echo '456123
 456123' | passwd rjkeller
 
+sed -i 's/#SystemMaxUse=/SystemMaxUse=50M/g' /etc/systemd/journald.conf
+
 
 eselect editor list
 eselect editor set 3
