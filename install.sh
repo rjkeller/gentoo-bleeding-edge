@@ -230,11 +230,11 @@ gem install zurb-foundation
 
 emerge sys-boot/grub
 
-grub2-install /dev/sda
+grub-install /dev/sda
 echo '
 GRUB_CMDLINE_LINUX="init=/usr/lib/systemd/systemd"
 ' >> /etc/default/grub
 echo '
 GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=xfs"
 ' >> /etc/default/grub
-grub2-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg
