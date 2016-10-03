@@ -38,7 +38,7 @@ swapon /dev/sda3
 
 
 cd /mnt/gentoo
-wget $( echo http://distfiles.gentoo.org/releases/amd64/autobuilds/`curl http://distfiles.gentoo.org/releases/amd64/autobuilds/latest-stage3-amd64-nomultilib.txt -q | tail -n 1` )
+wget $( echo http://distfiles.gentoo.org/releases/amd64/autobuilds/`curl http://distfiles.gentoo.org/releases/amd64/autobuilds/latest-stage3-amd64-systemd.txt -q | tail -n 1` )
 tar xjpf stage3*.tar.bz2
 rm -rf stage3*.tar.bz2
 echo "nameserver 8.8.8.8" > /mnt/gentoo/etc/resolv.conf
@@ -82,16 +82,9 @@ make -j4
 make modules_install
 cp arch/x86_64/boot/bzImage /boot/kernel-`find /usr/src -name linux-4* | awk -Flinux- '{print $NF }'`
 
-
-emerge --unmerge sys-fs/eudev
-emerge systemd
-
-
 emerge --changed-use --deep world
 emerge --update --deep --with-bdeps=y @world
 emerge @preserved-rebuild
-
-
 
 echo '/dev/sda4	/	xfs	noatime	0 1
 /dev/sda2	/boot	xfs	noauto,noatime	1 2
@@ -99,7 +92,6 @@ echo '/dev/sda4	/	xfs	noatime	0 1
 ' > /etc/fstab
 rm -rf /etc/mtab
 ln -s /proc/self/mounts /etc/mtab
-
 
 echo 'mdev' > /etc/hostname
 echo 'hostname="mdev"' > /etc/conf.d/hostname
