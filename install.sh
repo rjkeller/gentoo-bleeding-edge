@@ -123,18 +123,19 @@ emerge net-misc/dhcpcd \
   vim \
   ntp \
   sudo \
-  www-servers/apache \
   sys-process/htop \
   sys-process/iotop \
+  app-misc/screen \
+  dev-vcs/git \
+  app-admin/eclean-kernel
+
+emerge www-servers/apache \
   dev-lang/php \
   dev-db/redis \
   dev-php/pecl-redis \
   dev-php/phpunit \
-  app-misc/screen \
   dev-db/mariadb \
-  dev-php/xdebug \
-  dev-vcs/git \
-  app-admin/eclean-kernel
+  dev-php/xdebug
 
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 
