@@ -99,20 +99,6 @@ echo "127.0.0.1 localhost   mdev
 ::1     localhost
 " > /etc/hosts
 cd /etc/conf.d
-echo "[Unit]
-Description=DHCP
-After=basic.target
-
-[Service] 
-Type=oneshot 
-RemainAfterExit=yes 
-ExecStart=/bin/ifconfig enp0s3 up
-ExecStart=/sbin/dhcpcd
-
-[Install] 
-WantedBy=multi-user.target
-" > /usr/lib/systemd/system/network.dhcpcd.service
-ln -s /usr/lib/systemd/system/network.dhcpcd.service /etc/systemd/system/multi-user.target.wants/
 
 emerge net-misc/dhcpcd \
   syslog-ng \
@@ -139,11 +125,13 @@ emerge www-servers/apache \
 
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 
-ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/syslog.service
-ln -s /usr/lib/systemd/system/syslog-ng.service /etc/systemd/system/multi-user.target.wants/
-ln -s /usr/lib/systemd/system/cronie.service /etc/systemd/system/multi-user.target.wants/
-ln -s /usr/lib/systemd/system/ntpd.service /etc/systemd/system/multi-user.target.wants/
-ln -s /usr/lib/systemd/system/redis.service /etc/systemd/system/multi-user.target.wants/
+systemctl enable syslog-ng
+systemctl enable cronie
+systemctl enable ntpd
+systemctl enable dhcpcd
+
+systemctl enable redis
+systemctl enable apache2
 
 # set some git settings
 git config --global push.default simple
@@ -155,7 +143,6 @@ chmod +w /etc/sudoers
 echo '%admin ALL=(ALL) ALL
 ' >> /etc/sudoers
 chmod -w /etc/sudoers
-ln -s /usr/lib/systemd/system/apache2.service /etc/systemd/system/multi-user.target.wants/
 echo '
 
 #SERVER SETTINGS
@@ -178,8 +165,7 @@ sed -i 's/-D DEFAULT_VHOST -D INFO/-D DEFAULT_VHOST -D INFO -D PHP/g' /etc/conf.
 
 sed -i 's/allow_url_fopen = On/allow_url_fopen = Off/g' /etc/php/apache2-php5.6/php.ini
 
-ln -s /usr/lib/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/
-
+systemctl enable sshd
 
 emerge dev-db/phpmyadmin
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/vhosts/00-mdev.conf' -O /etc/apache2/vhosts.d/00-mdev.conf
@@ -198,18 +184,13 @@ echo '456123
 
 sed -i 's/#SystemMaxUse=/SystemMaxUse=50M/g' /etc/systemd/journald.conf
 
-
 eselect editor list
 eselect editor set 3
 env-update && source /etc/profile
 
-
 emerge dev-python/pip
 
-
 pip install awscli
-
-
 
 emerge dev-ruby/rubygems
 eselect ruby set ruby19
