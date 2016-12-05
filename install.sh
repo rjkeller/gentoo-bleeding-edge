@@ -207,6 +207,8 @@ gem install compass
 gem install zurb-foundation
 
 
+sed -i 's/slaac private/# slaac private/g' /etc/dhcpcd.conf
+
 
 emerge sys-boot/grub
 
