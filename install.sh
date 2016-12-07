@@ -210,6 +210,8 @@ gem install zurb-foundation
 sed -i 's/slaac private/# slaac private/g' /etc/dhcpcd.conf
 
 
+systemd-machine-id-setup
+
 emerge sys-boot/grub
 
 grub-install /dev/sda
