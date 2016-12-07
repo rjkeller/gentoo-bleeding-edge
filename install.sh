@@ -78,6 +78,7 @@ env-update && source /etc/profile
 cd /usr/portage/scripts
 ./bootstrap.sh
 emerge -e system
+emerge -e world
 
 emerge gentoo-sources
 wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernel-vmware-4.3.3.config -O /usr/src/linux/.config
