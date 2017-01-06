@@ -23,12 +23,12 @@ parted -a optimal /dev/sda < /tmp/parted
 rm -f /tmp/parted
 
 
-mkfs.xfs /dev/sda4
+mkfs.ext4 /dev/sda4
 mkdir -p /mnt/gentoo/
 mount /dev/sda4 /mnt/gentoo/
 
 
-mkfs.xfs /dev/sda2
+mkfs.ext4 /dev/sda2
 mkdir -p /mnt/gentoo/boot
 mount /dev/sda2 /mnt/gentoo/boot
 
@@ -109,8 +109,8 @@ emerge --changed-use --deep world
 emerge --update --deep --with-bdeps=y @world
 emerge @preserved-rebuild
 
-echo '/dev/sda4	/	xfs	noatime	0 1
-/dev/sda2	/boot	xfs	noauto,noatime	1 2
+echo '/dev/sda4	/	ext4	noatime	0 1
+/dev/sda2	/boot	ext4	noauto,noatime	1 2
 /dev/sda3	none	swap	sw	0 0
 ' > /etc/fstab
 rm -rf /etc/mtab
@@ -238,6 +238,6 @@ echo '
 GRUB_CMDLINE_LINUX="init=/usr/lib/systemd/systemd"
 ' >> /etc/default/grub
 echo '
-GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=xfs"
+GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=ext4"
 ' >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
