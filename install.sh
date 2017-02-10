@@ -23,12 +23,12 @@ parted -a optimal /dev/sda < /tmp/parted
 rm -f /tmp/parted
 
 
-mkfs.xfs /dev/sda4
+mkfs.ext4 /dev/sda4
 mkdir -p /mnt/gentoo/
 mount /dev/sda4 /mnt/gentoo/
 
 
-mkfs.xfs /dev/sda2
+mkfs.ext4 /dev/sda2
 mkdir -p /mnt/gentoo/boot
 mount /dev/sda2 /mnt/gentoo/boot
 
@@ -93,8 +93,8 @@ emerge --changed-use --deep world
 emerge --update --deep --with-bdeps=y @world
 emerge @preserved-rebuild
 
-echo '/dev/sda4	/	xfs	noatime	0 1
-/dev/sda2	/boot	xfs	noauto,noatime	1 2
+echo '/dev/sda4	/	ext4	noatime	0 1
+/dev/sda2	/boot	ext4	noauto,noatime	1 2
 /dev/sda3	none	swap	sw	0 0
 ' > /etc/fstab
 rm -rf /etc/mtab
@@ -120,25 +120,13 @@ emerge net-misc/dhcpcd \
   sys-process/iotop \
   app-misc/screen \
   dev-vcs/git \
-  app-admin/eclean-kernel
-
-emerge www-servers/apache \
-  dev-lang/php \
-  dev-db/redis \
-  dev-php/pecl-redis \
-  dev-php/phpunit \
   dev-db/mariadb \
-  dev-php/xdebug
-
-curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+  app-admin/eclean-kernel
 
 systemctl enable syslog-ng
 systemctl enable cronie
 systemctl enable ntpd
 systemctl enable dhcpcd
-
-systemctl enable redis
-systemctl enable apache2
 
 # set some git settings
 git config --global push.default simple
@@ -150,27 +138,6 @@ chmod +w /etc/sudoers
 echo '%admin ALL=(ALL) ALL
 ' >> /etc/sudoers
 chmod -w /etc/sudoers
-echo '
-
-#SERVER SETTINGS
-ServerName mdev
-KeepAlive On
-MaxKeepAliveRequests 100
-KeepAliveTimeout 15
-
-StartServers       8
-MinSpareServers    5
-MaxSpareServers   20
-ServerLimit      256
-MaxClients       256
-MaxRequestsPerChild  4000
-
-Listen 80
-Listen 443
-' >> /etc/apache2/httpd.conf
-sed -i 's/-D DEFAULT_VHOST -D INFO/-D DEFAULT_VHOST -D INFO -D PHP/g' /etc/conf.d/apache2
-
-sed -i 's/allow_url_fopen = On/allow_url_fopen = Off/g' /etc/php/apache2-php5.6/php.ini
 
 systemctl enable sshd
 
@@ -195,17 +162,7 @@ eselect editor list
 eselect editor set 3
 env-update && source /etc/profile
 
-emerge dev-python/pip
-
-pip install awscli
-
-emerge dev-ruby/rubygems
-eselect ruby set ruby19
-
-gem update system
-gem install sass
-gem install compass
-gem install zurb-foundation
+emerge dev-python/awscli
 
 
 sed -i 's/slaac private/# slaac private/g' /etc/dhcpcd.conf
@@ -220,6 +177,6 @@ echo '
 GRUB_CMDLINE_LINUX="init=/usr/lib/systemd/systemd"
 ' >> /etc/default/grub
 echo '
-GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=xfs"
+GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=ext4"
 ' >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
