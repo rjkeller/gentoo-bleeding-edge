@@ -1,3 +1,5 @@
 dev-lang/php bcmath hash phar crypt pdo gd imap mysql json intl mhash zip curl ftp ipv6 libmysqlclient mysqli soap sockets sqlite tidy xmlreader xmlrpc xmlwriter xslt
 dev-db/mariadb community extraengine oqgraph tokudb jemalloc client-libs
 app-editors/vim python
+sys-libs/zlib minizip
+www-servers/nginx ssl
