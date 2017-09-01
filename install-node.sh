@@ -135,6 +135,7 @@ emerge www-servers/nginx \
 systemctl enable redis
 systemctl enable nginx
 
+emerge --config dev-db/mariadb
 
 # set some git settings
 git config --global push.default simple
