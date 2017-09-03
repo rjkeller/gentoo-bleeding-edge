@@ -5,42 +5,42 @@ service ntpd start
 
 
 echo "
-                mklabel gpt
-                unit mib
-                mkpart primary 1 3
-                set 1 bios_grub on
-                name 1 grub
-                mkpart primary 3 131
-                name 2 boot
-                mkpart primary 131 643
-                name 3 swap
-                mkpart primary 643 -1
-                name 4 rootfs
-                print
-                quit
-              " > /tmp/parted
-parted -a optimal /dev/sda < /tmp/parted
+  mklabel gpt
+  unit mib
+  mkpart primary 1 3
+  set 1 bios_grub on
+  name 1 grub
+  mkpart primary 3 131
+  name 2 boot
+  mkpart primary 131 643
+  name 3 swap
+  mkpart primary 643 -1
+  name 4 rootfs
+  print
+  quit
+" > /tmp/parted
+parted -a optimal DEFAULT_DISK < /tmp/parted
 rm -f /tmp/parted
 
 
-mkfs.xfs /dev/sda4
+mkfs.DEFAULT_FILE_SYSTEM DEFAULT_DISK4
 mkdir -p /mnt/gentoo/
-mount /dev/sda4 /mnt/gentoo/
+mount DEFAULT_DISK4 /mnt/gentoo/
 
 
-mkfs.xfs /dev/sda2
+mkfs.DEFAULT_FILE_SYSTEM DEFAULT_DISK2
 mkdir -p /mnt/gentoo/boot
-mount /dev/sda2 /mnt/gentoo/boot
+mount DEFAULT_DISK2 /mnt/gentoo/boot
 
 
-mkswap /dev/sda3
-swapon /dev/sda3
+mkswap DEFAULT_DISK3
+swapon DEFAULT_DISK3
 
 
 cd /mnt/gentoo
-wget $( echo http://distfiles.gentoo.org/releases/amd64/autobuilds/`curl http://distfiles.gentoo.org/releases/amd64/autobuilds/latest-stage3-amd64-systemd.txt -q | tail -n 1` )
-tar xjpf stage3*.tar.bz2
-rm -rf stage3*.tar.bz2
+
+UNTAR_STEP
+
 echo "nameserver 8.8.8.8" > /mnt/gentoo/etc/resolv.conf
 mount -t proc proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
@@ -51,14 +51,15 @@ mkdir -p /etc/portage/package.accept_keywords
 mkdir -p /etc/portage/package.use
 mkdir -p /etc/portage/package.mask
 
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/make.conf' -O /etc/portage/make.conf
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.use' -O /etc/portage/package.use/default
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.accept_keywords' -O /etc/portage/package.accept_keywords/default
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.mask' -O /etc/portage/package.mask/default
-emerge-webrsync
-emerge --sync
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage/make.conf' -O /etc/portage/make.conf
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage/package.use' -O /etc/portage/package.use/default
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage/package.accept_keywords' -O /etc/portage/package.accept_keywords/default
+wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage/package.mask' -O /etc/portage/package.mask/default
 
+sed -i 's/EXTRA_USE_FLAGS/DEFAULT_EXTRA_USE_FLAGS/g' /etc/portage/make.conf
+sed -i 's/CORE_COUNT/DEFAULT_CORE_COUNT/g' /etc/portage/make.conf
 
+INIT_STEP
 
 echo 'America/Los_Angeles' > /etc/timezone
 emerge --config sys-libs/timezone-data
@@ -85,7 +86,7 @@ wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kern
 touch /usr/src/linux/.config
 cd /usr/src/linux
 make oldconfig
-make -j4
+make -jDEFAULT_CORE_COUNT
 make modules_install
 cp arch/x86_64/boot/bzImage /boot/kernel-`find /usr/src -name linux-4* | awk -Flinux- '{print $NF }'`
 
@@ -93,17 +94,17 @@ emerge --changed-use --deep world
 emerge --update --deep --with-bdeps=y @world
 emerge @preserved-rebuild
 
-echo '/dev/sda4	/	xfs	noatime	0 1
-/dev/sda2	/boot	xfs	noauto,noatime	1 2
-/dev/sda3	none	swap	sw	0 0
+echo 'DEFAULT_DISK4 / DEFAULT_FILE_SYSTEM noatime 0 1
+DEFAULT_DISK2 /boot DEFAULT_FILE_SYSTEM noauto,noatime  1 2
+DEFAULT_DISK3 none  swap  sw  0 0
 ' > /etc/fstab
 rm -rf /etc/mtab
 ln -s /proc/self/mounts /etc/mtab
 
-echo 'mdev' > /etc/hostname
-echo 'hostname="mdev"' > /etc/conf.d/hostname
-echo "127.0.0.1 localhost   mdev
-::1     localhost
+echo 'DEFAULT_HOST_NAME' > /etc/hostname
+echo 'hostname="DEFAULT_HOST_NAME"' > /etc/conf.d/hostname
+echo "127.0.0.1 localhost DEFAULT_HOST_NAME
+::1     localhost DEFAULT_HOST_NAME
 " > /etc/hosts
 cd /etc/conf.d
 
@@ -122,23 +123,10 @@ emerge net-misc/dhcpcd \
   dev-vcs/git \
   app-admin/eclean-kernel
 
-emerge www-servers/apache \
-  dev-lang/php \
-  dev-db/redis \
-  dev-php/pecl-redis \
-  dev-php/phpunit \
-  dev-db/mariadb \
-  dev-php/xdebug
-
-curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
-
 systemctl enable syslog-ng
 systemctl enable cronie
 systemctl enable ntpd
 systemctl enable dhcpcd
-
-systemctl enable redis
-systemctl enable apache2
 
 # set some git settings
 git config --global push.default simple
@@ -150,32 +138,8 @@ chmod +w /etc/sudoers
 echo '%admin ALL=(ALL) ALL
 ' >> /etc/sudoers
 chmod -w /etc/sudoers
-echo '
-
-#SERVER SETTINGS
-ServerName mdev
-KeepAlive On
-MaxKeepAliveRequests 100
-KeepAliveTimeout 15
-
-StartServers       8
-MinSpareServers    5
-MaxSpareServers   20
-ServerLimit      256
-MaxClients       256
-MaxRequestsPerChild  4000
-
-Listen 80
-Listen 443
-' >> /etc/apache2/httpd.conf
-sed -i 's/-D DEFAULT_VHOST -D INFO/-D DEFAULT_VHOST -D INFO -D PHP/g' /etc/conf.d/apache2
-
-sed -i 's/allow_url_fopen = On/allow_url_fopen = Off/g' /etc/php/apache2-php5.6/php.ini
 
 systemctl enable sshd
-
-emerge dev-db/phpmyadmin
-wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/vhosts/00-mdev.conf' -O /etc/apache2/vhosts.d/00-mdev.conf
 
 groupadd admin
 useradd -G admin rjkeller
@@ -195,31 +159,20 @@ eselect editor list
 eselect editor set 3
 env-update && source /etc/profile
 
-emerge dev-python/pip
+DEFAULT_SCRIPT_SETUP
 
-pip install awscli
-
-emerge dev-ruby/rubygems
-eselect ruby set ruby19
-
-gem update system
-gem install sass
-gem install compass
-gem install zurb-foundation
-
+emerge dev-python/awscli
 
 sed -i 's/slaac private/# slaac private/g' /etc/dhcpcd.conf
-
-
 systemd-machine-id-setup
 
 emerge sys-boot/grub
 
-grub-install /dev/sda
+grub-install DEFAULT_DISK
 echo '
 GRUB_CMDLINE_LINUX="init=/usr/lib/systemd/systemd"
 ' >> /etc/default/grub
 echo '
-GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=xfs"
+GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=DEFAULT_FILE_SYSTEM"
 ' >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg

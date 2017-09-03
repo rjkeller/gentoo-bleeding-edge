@@ -1,0 +1,32 @@
+{
+  "name": "gentoo-bleeding-edge",
+  "version": "1.0.0",
+  "description": "Scripts to help me set up a new gentoo installation",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "lint": "./node_modules/.bin/eslint index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rjkeller/gentoo-bleeding-edge.git"
+  },
+  "author": "R.J. Keller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rjkeller/gentoo-bleeding-edge/issues"
+  },
+  "homepage": "https://github.com/rjkeller/gentoo-bleeding-edge#readme",
+  "dependencies": {
+    "colors": "^1.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.6.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
