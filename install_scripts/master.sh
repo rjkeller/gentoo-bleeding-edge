@@ -51,6 +51,8 @@ mkdir -p /etc/portage/package.accept_keywords
 mkdir -p /etc/portage/package.use
 mkdir -p /etc/portage/package.mask
 
+INIT_STEP
+
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage/make.conf' -O /etc/portage/make.conf
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage/package.use' -O /etc/portage/package.use/default
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/portage/package.accept_keywords' -O /etc/portage/package.accept_keywords/default
@@ -58,8 +60,6 @@ wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/por
 
 sed -i 's/EXTRA_USE_FLAGS/DEFAULT_EXTRA_USE_FLAGS/g' /etc/portage/make.conf
 sed -i 's/CORE_COUNT/DEFAULT_CORE_COUNT/g' /etc/portage/make.conf
-
-INIT_STEP
 
 echo 'America/Los_Angeles' > /etc/timezone
 emerge --config sys-libs/timezone-data
