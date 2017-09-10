@@ -1,8 +1,8 @@
 
 cp /usr/lib64/libssl.so /usr/lib64/libssl.so.1.0.0
 cp /usr/lib64/libcrypto.so /usr/lib64/libcrypto.so.1.0.0
-emerge-webrsync
-emerge --sync
+
+EMERGE_RSYNC
 
 sed -i 's/mtune=generic/march=native/g' /etc/portage/make.conf
 sed -i 's/LDFLAGS/#LDFLAGS/g' /etc/portage/make.conf

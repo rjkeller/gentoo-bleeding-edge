@@ -1,0 +1,2 @@
+emerge-webrsync
+emerge --sync

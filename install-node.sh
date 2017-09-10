@@ -55,6 +55,8 @@ wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/mak
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.use' -O /etc/portage/package.use/default
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.accept_keywords' -O /etc/portage/package.accept_keywords/default
 wget 'https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/package.mask' -O /etc/portage/package.mask/default
+
+EMERGE_RSYNC
 emerge-webrsync
 emerge --sync
 

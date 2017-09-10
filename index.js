@@ -63,10 +63,18 @@ async function main() {
     case '3':
     default:
       file = strReplaceAll(file, 'UNTAR_STEP', fs.readFileSync('./install_scripts/stage3/untar.sh', 'ascii'));
-      file = strReplaceAll(file, 'INIT_STEP', '');
+      file = strReplaceAll(file, 'INIT_STEP', fs.readFileSync('./install_scripts/stage3/init.sh', 'ascii'));
       break;
   }
   file = strReplaceAll(file, 'DEFAULT_HOST_NAME', defaultHostName);
+
+  let defaultSyncIp = await askQuestion('Local sync IP', -1);
+  if (defaultSyncIp === -1) {
+    file = strReplaceAll(file, 'EMERGE_RSYNC', fs.readFileSync('./install_scripts/sync/global.sh', 'ascii'));
+  } else {
+    file = strReplaceAll(file, 'EMERGE_RSYNC', fs.readFileSync('./install_scripts/sync/local.sh', 'ascii'));
+    file = strReplaceAll(file, 'LOCAL_RSYNC_IP', defaultSyncIp);
+  }
 
   console.log('done');
 
