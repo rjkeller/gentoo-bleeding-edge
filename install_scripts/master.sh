@@ -76,7 +76,7 @@ eselect locale set en_US.utf8
 env-update && source /etc/profile
 
 emerge gentoo-sources
-wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernel-vmware-4.3.3.config -O /usr/src/linux/.config
+wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernels/kernel-virtualbox-4.9.config -O /usr/src/linux/.config
 touch /usr/src/linux/.config
 cd /usr/src/linux
 make oldconfig
