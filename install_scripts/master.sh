@@ -12,9 +12,9 @@ echo "
   name 1 grub
   mkpart primary 3 131
   name 2 boot
-  mkpart primary 131 643
+  mkpart primary 131 387
   name 3 swap
-  mkpart primary 643 -1
+  mkpart primary 387 -1
   name 4 rootfs
   print
   quit
@@ -41,11 +41,16 @@ cd /mnt/gentoo
 
 UNTAR_STEP
 
-echo "nameserver 8.8.8.8" > /mnt/gentoo/etc/resolv.conf
+cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
+
 mount -t proc proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
+mount --make-rslave /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev
+mount --make-rslave /mnt/gentoo/dev
+
 chroot /mnt/gentoo /bin/bash
+source /etc/profile
 
 mkdir -p /etc/portage/package.accept_keywords
 mkdir -p /etc/portage/package.use
@@ -84,8 +89,7 @@ make -jDEFAULT_CORE_COUNT
 make modules_install
 cp arch/x86_64/boot/bzImage /boot/kernel-`find /usr/src -name linux-4* | awk -Flinux- '{print $NF }'`
 
-emerge --changed-use --deep world
-emerge --update --deep --with-bdeps=y @world
+emerge --update --deep --newuse --with-bdeps=y @world
 emerge @preserved-rebuild
 
 echo 'DEFAULT_DISK4 / DEFAULT_FILE_SYSTEM noatime 0 1
