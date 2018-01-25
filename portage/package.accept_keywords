@@ -46,6 +46,7 @@ dev-python/s3transfer ~amd64
 net-libs/nodejs ~amd64
 dev-libs/icu ~amd64
 sys-apps/yarn ~amd64
+net-libs/nghttp2 ~amd64
 
 # for docker
 sys-libs/libapparmor ~amd64

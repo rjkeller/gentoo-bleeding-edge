@@ -80,6 +80,14 @@ eselect locale list
 eselect locale set en_US.utf8
 env-update && source /etc/profile
 
+eselect profile set default/linux/amd64/17.0/no-multilib
+emerge --oneshot gcc
+gcc-config 2
+env-update && source /etc/profile
+emerge --oneshot sys-devel/libtool
+emerge gentoolkit
+revdep-rebuild --library 'libstdc++.so.6' -- --exclude gcc
+
 emerge gentoo-sources
 wget https://raw.githubusercontent.com/rjkeller/gentoo-bleeding-edge/master/kernels/kernel-virtualbox-4.9.config -O /usr/src/linux/.config
 touch /usr/src/linux/.config
@@ -91,6 +99,7 @@ cp arch/x86_64/boot/bzImage /boot/kernel-`find /usr/src -name linux-4* | awk -Fl
 
 emerge --update --deep --newuse --with-bdeps=y @world
 emerge @preserved-rebuild
+emerge --depclean
 
 echo 'DEFAULT_DISK4 / DEFAULT_FILE_SYSTEM noatime 0 1
 DEFAULT_DISK2 /boot DEFAULT_FILE_SYSTEM noauto,noatime  1 2
